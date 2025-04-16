@@ -479,7 +479,7 @@ public class programaFinal{
                                     arrayInstitucion.add(cliente);
                                 }
 
-                                System.out.println(persona1.toString());
+                                System.out.println("\n" + persona1.toString() + "\n");
                                 
                                 break;
                             case 2:
