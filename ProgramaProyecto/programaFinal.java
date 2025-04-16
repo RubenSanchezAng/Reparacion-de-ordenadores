@@ -245,6 +245,7 @@ public class programaFinal{
         
         
                     opcion_materiales = tec.nextInt();
+                    tec.nextLine();
         
                     
                 } while (opcion_materiales!=0);
