@@ -38,7 +38,7 @@ public class Reparaciones{
    private double frecuencia;
 
    
-   public Reparaciones(String descripcionProblema, String equipoAfectado, String diagnostico,  String asignarReparadores, String asignarMateriales, double costeObra, double materiales, int tiempo) {
+   public Reparaciones(String descripcionProblema, String equipoAfectado, String diagnostico,  String asignarReparadores, String asignarMateriales, double costeObra, double materiales, double tiempo) {
         this.descripcionProblema = descripcionProblema;
         this.equipoAfectado = equipoAfectado;
         this.diagnostico = diagnostico;
