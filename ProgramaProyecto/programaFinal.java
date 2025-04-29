@@ -683,28 +683,56 @@ public class programaFinal{
         }
         return res;
     }
-      public static void escribirFileWriter(ArrayList<Estimacion> estimacions, String nombreFichero){
+     public static void escribirFileWriter(ArrayList<Estimacion> estimacions, String nombreFichero){
         try {
             File fs = new File(nombreFichero);
             FileWriter fw = new FileWriter(fs,true);
             
-            String cadena ="<html>\n<head>Listado Estimaciones</head>\n <body>\n<ol>\n";
-            fw.write(cadena);
-                fw.write("\r\n");
+            String cabecera = "<!DOCTYPE html>\n<html>\n<head>\n" +
+            "  <title>Estimaciones</title>\n" +
+            "  <style>\n" +
+            "    body { font-family: Arial, sans-serif; margin: 20px; }\n" +
+            "    h1 { color: black; text-align: center; }\n" +
+            "    .proveedor { border: 1px solid gray; padding: 15px; margin-bottom: 20px; }\n" +
+            "    h2 { color: blue; margin-top: 0; }\n" +
+            "    table { width: 100%; border-collapse: collapse; margin-top: 10px; }\n" +
+            "    th, td { border: 1px solid gray; padding: 8px; }\n" +
+            "    th { background-color: blue; color: white; }\n" +
+            "    .verde { background-color: green; color: white; }\n" +
+            "    .amarillo { background-color: yellow; }\n" +
+            "    .rojo { background-color: red; color: white; }\n" +
+            "    .contacto { margin-top: 10px; }\n" +
+            "  </style>\n" +
+            "</head>\n<body>\n" +
+            "<h1>Estimaciones</h1>\n";
+
+fw.write(cabecera);
+                fw.write("  <table>\n" +
+                            "    <tr>\n" +
+                            "      <th>Tipo</th>\n" +
+                            "      <th>Descripción</th>\n" +
+                            "      <th>Coste</th>\n" +
+                            "         </tr>\n");
            
                 for (Estimacion est : estimacions) {
-                    String linea = "<li>" + est.getTipo() + ": " + est.getDescripcion() + " - " + est.getCosto() + "€</li>\n";
-                    fw.write(linea);
-                
-            }
-            cadena ="</ol>\n</body></html>\n";
-            fw.write(cadena);
-                fw.write("\r\n");
-            if (fw != null) {fw.close();}
-        } catch (IOException e){
-            e.printStackTrace();
+                    fw.write("    <tr>\n" +
+                    "      <td>" + est.getTipo() + "</td>\n" +
+                    "      <td>" + est.getDescripcion() + "</td>\n" +
+                    "      <td>" + est.getCosto() + "</td>\n" +
+                    "    </tr>\n");
         }
-    }
+            
+            fw.write("  </table>\n");
+        
+            fw.write("</div>\n");
+            fw.write("</body>\n</html>");
+        fw.close();
+    
+        System.out.println("Informe de proveedores generado: " + nombreFichero);
+    }catch (IOException e) {
+    System.out.println("Error al generar el informe: " + e.getMessage());
+}
+}
     public static void leerFileReader(String fichero){
         File fe = new File(fichero);
         if (fe.exists()){
