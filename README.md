@@ -3,7 +3,7 @@
 ## Servicio de Reparaciones Informáticas
 ## 📑 Índice
 
-1. [Nuestra Historia](#nuestra-historia)
+1. [Descripción General](#DescripciónGeneral)
 2. [Menú](#menú)
 3. [Equipo](#equipo)
 4. [Reservas](#reservas)
