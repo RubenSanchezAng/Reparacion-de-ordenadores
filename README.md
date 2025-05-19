@@ -169,7 +169,8 @@ public class Material {
 - Seguimiento de estado (en espera, en proceso, completada).
 - Estimación de costes y tiempos.
 - Informes por cliente y tipo de reparación.
-
+Para saber más información:
+[Enlace al GitHub](https://github.com/RubenSanchezAng/Gesti-n-de-reparaciones) 
 ---
 
 #### 4. Gestión de Clientes
