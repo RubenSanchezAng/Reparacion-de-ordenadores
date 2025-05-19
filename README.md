@@ -157,6 +157,8 @@ public class Material {
 - Asignación de tareas.
 - Evaluación de desempeño.
 
+- Para tener más información está este github
+  [Enlace al GitHub](https://github.com/RubenSanchezAng/Gesti-n-de-reparaciones) 
 ---
 
 #### 3. Gestión de Reparaciones
