@@ -1,4 +1,4 @@
-#  Proyecto Intermodular 1º DAW 2024/2025  <img src="LogoEmpresa.png" alt="Icono" width="40"/>
+#  Proyecto Intermodular 1º DAW 2024/2025  <img src="LogoEmpresa.png" alt="Icono" width="100"/>
 
 ## Servicio de Reparaciones Informáticas
 ## 📑 Índice
