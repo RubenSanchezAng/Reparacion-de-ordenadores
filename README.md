@@ -19,6 +19,7 @@
    - [Gestión de Personal](#2-gestión-de-personal)
    - [Gestión de Reparaciones](#3-gestión-de-reparaciones)
    - [Gestión de Clientes](#4-gestión-de-clientes)
+     - https://github.com/Farinos1/Gestor-ClientesV2/blob/main/README.md
    - [Generación de Informes](#5-generación-de-informes)
 5. [Requisitos del Sistema](#requisitos-del-sistema)
 6. [Requisitos del Proyecto](#requisitos-del-proyecto)
