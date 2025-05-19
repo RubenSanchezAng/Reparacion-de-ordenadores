@@ -136,13 +136,7 @@ public class Material {
 }
 ```
 
----
 
-## :framed_picture: Galería de Imágenes
-
-> *Visualización simulada del panel de stock del sistema:*
-
-![Panel de gestión de materiales](https://via.placeholder.com/800x400?text=Gestión+de+Stock)
 
 ---
 
