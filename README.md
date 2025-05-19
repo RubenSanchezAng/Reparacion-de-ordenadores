@@ -1,7 +1,7 @@
-# 🛠️ Proyecto Intermodular 1º DAW 2024/2025  
+#  Proyecto Intermodular 1º DAW 2024/2025  
 ## Servicio de Reparaciones Informáticas
 
-### 🎯 Descripción General
+###  Descripción General
 
 Este proyecto tiene como objetivo **crear una empresa de servicios de reparación informática** que incluye:
 
@@ -11,7 +11,7 @@ Este proyecto tiene como objetivo **crear una empresa de servicios de reparació
 
 ---
 
-### 🎯 Objetivos del Proyecto
+###  Objetivos del Proyecto
 
 - Crear una aplicación intuitiva y eficiente para gestionar un taller de reparaciones.
 - Integrar todos los procesos desde la recepción del equipo hasta su devolución.
@@ -22,7 +22,7 @@ Este proyecto tiene como objetivo **crear una empresa de servicios de reparació
 
 ---
 
-### 🔧 Subsistemas del Proyecto
+###  Subsistemas del Proyecto
 
 #### 1. Gestión de Materiales
 **Objetivo:** Controlar inventario de piezas y repuestos.  
@@ -78,7 +78,7 @@ Este proyecto tiene como objetivo **crear una empresa de servicios de reparació
 
 ---
 
-### 🖥️ Requisitos del Sistema
+###  Requisitos del Sistema
 
 - **Interfaz Gráfica Amigable (GUI)**
 - **Base de datos relacional** (ej. MySQL)
@@ -87,14 +87,14 @@ Este proyecto tiene como objetivo **crear una empresa de servicios de reparació
 
 ---
 
-### 📌 Requisitos del Proyecto
+###  Requisitos del Proyecto
 
 - Cumplimiento con todos los módulos del proyecto intermodular.
 - Instrucciones del profesorado y del *product owner*.
 
 ---
 
-### 📦 Alcance del Proyecto
+###  Alcance del Proyecto
 
 - Dirigido a talleres pequeños y medianas empresas.
 - No incluye integración con pasarelas de pago ni logística externa (por ahora).
