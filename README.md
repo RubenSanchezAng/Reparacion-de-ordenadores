@@ -4,7 +4,7 @@
 ## 📑 Índice
 1. [Descripción General](#descripción-general)
 2. [Objetivos del Proyecto](#objetivos-del-proyecto)
-3. [Equipo](#equipo)
+3. [Equipo](#Equipo)
 4. [Subsistemas del Proyecto](#subsistemas-del-proyecto)
    - [Gestión de Materiales](#1-gestión-de-materiales)
    - [Gestión de Personal](#2-gestión-de-personal)
