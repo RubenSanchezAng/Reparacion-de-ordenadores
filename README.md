@@ -26,10 +26,11 @@ Este proyecto tiene como objetivo **crear una empresa de servicios de reparació
 
 Este proyecto fue desarrollado por:
 
-- Ana Pérez
-- Juan García
-- Luisa Fernández
-- Carlos Soto
+- Rubén Sánchez
+- Alejandro Farinós
+- Irma Wendolin
+- Manuel Rubio
+- Lucas Alamar
 
 ---
 ###  Subsistemas del Proyecto
