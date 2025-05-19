@@ -97,4 +97,4 @@ Este proyecto tiene como objetivo **crear una empresa de servicios de reparació
 ###  Alcance del Proyecto
 
 - Dirigido a talleres pequeños y medianas empresas.
-- No incluye integración con pasarelas de pago ni logística externa (por ahora).
+
