@@ -194,6 +194,9 @@ Para saber más información:
 - Satisfacción del cliente.
 - Exportación (PDF/Excel) e importación de datos.
 
+  Para mayor información visite el siguiente link:
+  [Enlace al GitHub](https://wendolin-byte.github.io/Informes-Sistema-de-Reparaciones)
+
 ---
 
 ###  Requisitos del Sistema
