@@ -50,13 +50,99 @@ Este proyecto fue desarrollado por:
 ###  Subsistemas del Proyecto
 
 #### 1. Gestión de Materiales
-**Objetivo:** Controlar inventario de piezas y repuestos.  
-**Funcionalidades:**
-- Registro y control de stock.
-- Alertas por bajo stock.
-- Gestión de proveedores y compras.
-- Asignación de materiales a reparaciones.
-- Historial y coste de materiales.
+## :wrench: Introducción
+
+El **Subsistema de Gestión de Materiales** es una parte clave del sistema de reparaciones informáticas. Este módulo permite:
+
+- :package: Controlar el inventario de piezas y repuestos.
+- :clipboard: Gestionar pedidos a proveedores.
+- :hammer_and_wrench: Asignar materiales a reparaciones concretas.
+- :warning: Evitar quiebres de stock con alertas automáticas.
+
+> :bulb: _Este subsistema se integra con los módulos de personal, reparaciones, clientes e informes._
+
+---
+
+## :package: Funcionalidades del Subsistema
+
+### :card_index_dividers: Registro de materiales y repuestos
+
+Permite agregar nuevos ítems al inventario, incluyendo:
+
+- Nombre del material
+- Descripción
+- Proveedor
+- Precio unitario
+- Cantidad
+
+---
+
+### :inbox_tray: Gestión de stock
+
+- Control de entradas y salidas.
+- Visualización de stock actual.
+- Alerta de **stock bajo** cuando la cantidad llega al mínimo.
+- Recuento automatizado.
+
+---
+
+### :receipt: Orden de compras
+
+- Generación automática de pedidos a proveedores.
+- Historial completo de órdenes emitidas.
+- Asociaciones con proveedores registrados.
+
+---
+
+### :hammer_and_wrench: Asignación de materiales
+
+- Los materiales pueden asignarse a reparaciones específicas.
+- Se registra cantidad usada, fecha y técnico responsable.
+
+---
+
+### :clock4: Historial de materiales
+
+- Informes por período, reparación o cliente.
+- Consulta del uso y coste acumulado por reparación.
+
+---
+
+## :bar_chart: Estructura del Código Java
+
+```java
+public class Material {
+    private String nombre;
+    private int stock;
+    private String proveedor;
+    private double precio;
+
+    public Material(String nombre, int stock, String proveedor, double precio) {
+        this.nombre = nombre;
+        this.stock = stock;
+        this.proveedor = proveedor;
+        this.precio = precio;
+    }
+
+    public void actualizarStock(int cantidad) {
+        this.stock += cantidad;
+    }
+
+    public boolean esStockBajo() {
+        return this.stock < 5;
+    }
+
+    // Getters y Setters...
+}
+```
+
+---
+
+## :framed_picture: Galería de Imágenes
+
+> *Visualización simulada del panel de stock del sistema:*
+
+![Panel de gestión de materiales](https://via.placeholder.com/800x400?text=Gestión+de+Stock)
 
 ---
 
