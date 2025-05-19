@@ -22,7 +22,16 @@ Este proyecto tiene como objetivo **crear una empresa de servicios de reparació
 - Desarrollar una aplicación web.
 
 ---
+## 👥 Equipo
 
+Este proyecto fue desarrollado por:
+
+- Ana Pérez
+- Juan García
+- Luisa Fernández
+- Carlos Soto
+
+---
 ###  Subsistemas del Proyecto
 
 #### 1. Gestión de Materiales
