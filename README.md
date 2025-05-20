@@ -158,9 +158,7 @@ public class Material {
 - Asignación de tareas.
 - Evaluación de desempeño.
 
-- Para tener más información está este github
-  [Enlace al GitHub](https://github.com/RubenSanchezAng/Gesti-n-de-reparaciones) 
----
+
 
 #### 3. Gestión de Reparaciones
 **Objetivo:** Seguimiento de cada reparación desde el ingreso hasta la entrega.  
@@ -170,10 +168,9 @@ public class Material {
 - Seguimiento de estado (en espera, en proceso, completada).
 - Estimación de costes y tiempos.
 - Informes por cliente y tipo de reparación.
-Para saber más información:
-[Enlace al GitHub](https://github.com/RubenSanchezAng/Gesti-n-de-reparaciones) 
+- Para tener más información está este github
+  [Enlace al GitHub](https://github.com/RubenSanchezAng/Gesti-n-de-reparaciones) 
 ---
-
 #### 4. Gestión de Clientes
 **Objetivo:** Administración de personas y empresas que solicitan servicios.  
 **Funcionalidades:**
