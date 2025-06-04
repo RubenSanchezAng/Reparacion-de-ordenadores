@@ -1,97 +1,127 @@
+package BaseDatos;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 
 public class ClienteDB {
-
-    public static void insertarCliente(int id, String correo, String nombre, String direccion) {
-        String sql = "INSERT INTO Cliente (id, correo, nombre, direccion) VALUES (?, ?, ?, ?)";
-
-        try (Connection conexion = ConexionDB.obtenerConexion();
-             PreparedStatement pstmt = conexion.prepareStatement(sql)) {
-
+    
+    public static void insertarCliente(Connection con, int id, String correo, String nombre, String direccion) throws SQLException {
+        String insert = "INSERT INTO Cliente (id, correo, nombre, direccion) VALUES (?, ?, ?, ?)";
+        try (PreparedStatement pstmt = con.prepareStatement(insert)) {
             pstmt.setInt(1, id);
             pstmt.setString(2, correo);
             pstmt.setString(3, nombre);
             pstmt.setString(4, direccion);
-
-            int filas = pstmt.executeUpdate();
-            System.out.println("Filas insertadas: " + filas);
-
-        } catch (SQLException e) {
-            System.out.println("Error al insertar cliente");
-            e.printStackTrace();
+            pstmt.executeUpdate();
+            System.out.println("Filas insertadas");
         }
     }
 
-    public static void mostrarClientes() {
-        String sql = "SELECT * FROM Cliente";
-
-        try (Connection conexion = ConexionDB.obtenerConexion();
-             Statement stmt = conexion.createStatement();
-             ResultSet rs = stmt.executeQuery(sql)) {
-
+    public static void verClientes(Connection con) throws SQLException {
+        String query = "SELECT id, correo, nombre, direccion FROM Cliente";
+        try (PreparedStatement pstmt = con.prepareStatement(query)) {
+            ResultSet rs = pstmt.executeQuery();
             while (rs.next()) {
-                int id = rs.getInt("id");
-                String correo = rs.getString("correo");
-                String nombre = rs.getString("nombre");
-                String direccion = rs.getString("direccion");
-
-                System.out.println("ID: " + id + ", Correo: " + correo + ", Nombre: " + nombre + ", Dirección: " + direccion);
+                System.out.println("ID: " + rs.getInt("id"));
+                System.out.println("Correo: " + rs.getString("correo"));
+                System.out.println("Nombre: " + rs.getString("nombre"));
+                System.out.println("Dirección: " + rs.getString("direccion"));
+                System.out.println("-----------");
             }
-
-        } catch (SQLException e) {
-            System.out.println("Error al mostrar clientes");
-            e.printStackTrace();
         }
     }
-    public static void buscarClientePorId(int idBuscado) {
-    String sql = "SELECT * FROM Cliente WHERE id = ?";
 
-    try (Connection conexion = ConexionDB.obtenerConexion();
-         PreparedStatement pstmt = conexion.prepareStatement(sql)) {
-
-        pstmt.setInt(1, idBuscado);
-
-        try (ResultSet rs = pstmt.executeQuery()) {
+ public static boolean buscarClientePorId(Connection con, int idBuscado) throws SQLException {
+        boolean clienteExiste = false;
+        String query = "SELECT id FROM Cliente WHERE id = ?";
+        try (PreparedStatement pstmt = con.prepareStatement(query)) {
+            pstmt.setInt(1, idBuscado);
+            ResultSet rs = pstmt.executeQuery();
             if (rs.next()) {
-                int id = rs.getInt("id");
-                String correo = rs.getString("correo");
-                String nombre = rs.getString("nombre");
-                String direccion = rs.getString("direccion");
-
-                System.out.println("Cliente encontrado:");
-                System.out.println("ID: " + id + ", Correo: " + correo + ", Nombre: " + nombre + ", Dirección: " + direccion);
-            } else {
-                System.out.println("No se encontró un cliente con ID: " + idBuscado);
+                clienteExiste = true;
             }
         }
-
-    } catch (SQLException e) {
-        System.out.println("Error al buscar cliente por ID");
-        e.printStackTrace();
+        return clienteExiste;
     }
-}
-public static void borrarClientePorId(int idABorrar) {
-    String sql = "DELETE FROM Cliente WHERE id = ?";
+  public static void mostrarClientePorId(Connection con, int idBuscado) throws SQLException {
+        if (buscarClientePorId(con, idBuscado)) {
+            String query = "SELECT id, correo, nombre, direccion FROM Cliente WHERE id = ?";
+            try (PreparedStatement pstmt = con.prepareStatement(query)) {
+                pstmt.setInt(1, idBuscado);
+                ResultSet rs = pstmt.executeQuery();
+                if (rs.next()) {
+                    System.out.println("ID: " + rs.getInt("id"));
+                    System.out.println("Correo: " + rs.getString("correo"));
+                    System.out.println("Nombre: " + rs.getString("nombre"));
+                    System.out.println("Dirección: " + rs.getString("direccion"));
+                    System.out.println("--------------");
+                }
+            }
+        } else 
+            System.out.println("No se puede mostrar porque no existe el cliente");
+    }
 
-    try (Connection conexion = ConexionDB.obtenerConexion();
-         PreparedStatement pstmt = conexion.prepareStatement(sql)) {
-
-        pstmt.setInt(1, idABorrar);
-        int filas = pstmt.executeUpdate();
-
-        if (filas > 0) {
-            System.out.println("Cliente con ID " + idABorrar + " eliminado");
+    public static void borrarClientePorId(Connection con, int idBorrar) throws SQLException {
+        boolean clienteExiste = buscarClientePorId(con, idBorrar);
+        if (clienteExiste) {
+            String delete = "DELETE FROM Cliente WHERE id = ?";
+            try (PreparedStatement pstmtDelete = con.prepareStatement(delete)) {
+                pstmtDelete.setInt(1, idBorrar);
+                pstmtDelete.executeUpdate();
+                System.out.println("Cliente borrado");
+            }
         } else {
-            System.out.println("No se encontró un cliente con ID: " + idABorrar);
+            System.out.println("No se puede borrar porque no existe el cliente");
         }
-
-    } catch (SQLException e) {
-        System.out.println("Error al eliminar cliente por ID");
-        e.printStackTrace();
     }
-}
+
+    public static void modificarCorreo(Connection con, int id, String nuevoCorreo) throws SQLException {
+        boolean clienteExiste = buscarClientePorId(con, id);
+        if (clienteExiste) {
+            String update = "UPDATE Cliente SET correo = ? WHERE id = ?";
+            try (PreparedStatement pstmt = con.prepareStatement(update)) {
+                pstmt.setString(1, nuevoCorreo);
+                pstmt.setInt(2, id);
+                pstmt.executeUpdate();
+                System.out.println("Correo modificado");
+            }
+        } else {
+            System.out.println("No se puede modificar porque no existe el cliente");
+        }
+    }
+
+    public static void modificarNombre(Connection con, int id, String nuevoNombre) throws SQLException {
+        boolean clienteExiste = buscarClientePorId(con, id);
+        if (clienteExiste) {
+            String update = "UPDATE Cliente SET nombre = ? WHERE id = ?";
+            try (PreparedStatement pstmt = con.prepareStatement(update)) {
+                pstmt.setString(1, nuevoNombre);
+                pstmt.setInt(2, id);
+                pstmt.executeUpdate();
+                System.out.println("Nombre modificado");
+            }
+        } else {
+            System.out.println("No se puede modificar porque no existe el cliente");
+        }
+    }
+
+    public static void modificarDireccion(Connection con, int id, String nuevaDireccion) throws SQLException {
+        boolean clienteExiste = buscarClientePorId(con, id);
+        if (clienteExiste) {
+            String update = "UPDATE Cliente SET direccion = ? WHERE id = ?";
+            try (PreparedStatement pstmt = con.prepareStatement(update)) {
+                pstmt.setString(1, nuevaDireccion);
+                pstmt.setInt(2, id);
+                pstmt.executeUpdate();
+                System.out.println("Dirección modificada");
+            }
+        } else {
+            System.out.println("No se puede modificar porque no existe el cliente");
+        }
+    }
+
+
+    
 }
