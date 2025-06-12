@@ -17,7 +17,7 @@ public class MainAdministrativo {
             AdministrativoDB.insertarAdministrativo(con, idAdmin, "Soporte", "Carlos Gómez", "612345678");
 
             // Ver todos los técnicos
-            AdministrativoDB.verTAdministrativos(con);
+            AdministrativoDB.verAdministrativos(con);
 
             // Ver técnico por ID
             AdministrativoDB.verAdministrativoPorId(con, idAdmin);
@@ -25,8 +25,6 @@ public class MainAdministrativo {
             // Modificar nombre
             AdministrativoDB.modificarNombre(con, idAdmin, "Carlos G.");
 
-            // Modificar cargo
-            AdministrativoDB.modificarCargo(con, idAdmin, "Especialista");
 
             // Modificar teléfono
             AdministrativoDB.modificarTelefono(con, idAdmin, "600000000");

@@ -29,7 +29,6 @@ public class MainOrdenCompra{
 
             OrdenCompraDB.verOrdenCompraPorId(con, id);
 
-            OrdenCompraDB.borrarOrdenCompraPorId(con, id);
 
         } catch (SQLException e) {
             System.out.println("Error en la base de datos");

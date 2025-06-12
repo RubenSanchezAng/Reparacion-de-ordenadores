@@ -18,7 +18,6 @@ public class MainEmpleado {
             EmpleadoDB.verEmpleadoPorId(con, 100);
 
          
-            EmpleadoDB.modificarCargo(con, 100, "Director General");
 
             EmpleadoDB.modificarTelefono(con, 100, "555-1234");
 

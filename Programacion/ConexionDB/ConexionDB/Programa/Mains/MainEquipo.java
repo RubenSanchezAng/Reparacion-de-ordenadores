@@ -1,3 +1,11 @@
+package Mains;
+import java.sql.Connection;
+import java.sql.Date;
+import java.sql.SQLException;
+import java.time.LocalDate;
+
+import BaseDatos.ConexionDB;
+import BaseDatos.EquipoDB;
 
 public class MainEquipo {
     public static void main(String[] args) {
@@ -13,7 +21,7 @@ public class MainEquipo {
             
             EquipoDB.insertarEquipo(con, id, estado, fecha, modelo, marca, idTecnico);
 
-            // Ver todos los equipos
+            // Ver todos los equipos.
             //EquipoDB.verEquipos(con);
 
             // Ver equipo por ID
