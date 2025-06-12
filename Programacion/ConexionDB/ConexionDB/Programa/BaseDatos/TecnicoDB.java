@@ -1,6 +1,12 @@
 package BaseDatos;
 
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -134,18 +140,86 @@ public class TecnicoDB {
         }
     }
     public static void modificarNombre(Connection con, int id, String nuevoNombre) throws SQLException {
-        boolean existe = buscarTecnicoPorId(con, id);
-        if (existe) {
-            String sql = "UPDATE Empleado SET nombre = ? WHERE id_Empleado = ?";
-            try (PreparedStatement pstmt = con.prepareStatement(sql)) {
-                pstmt.setString(1, nuevoNombre);
-                pstmt.setInt(2, id);
-                pstmt.executeUpdate();
-                System.out.println("Nombre modificado");
+            boolean existe = buscarTecnicoPorId(con, id);
+            if (existe) {
+                String sql = "UPDATE Empleado SET nombre = ? WHERE id_Empleado = ?";
+                try (PreparedStatement pstmt = con.prepareStatement(sql)) {
+                    pstmt.setString(1, nuevoNombre);
+                    pstmt.setInt(2, id);
+                    pstmt.executeUpdate();
+                    System.out.println("Nombre modificado");
+                }
+            } else {
+                System.out.println("No se puede modificar porque no existe el técnico");
             }
-        } else {
-            System.out.println("No se puede modificar porque no existe el técnico");
+        }    
+        public static void leerTecnicosDesdeArch(Connection con, String fichero) throws SQLException {
+            File f = new File(fichero);
+            if (f.exists()) {
+                try (
+                FileReader fr = new FileReader(f);
+                BufferedReader lector = new BufferedReader(fr)
+                ) {
+                    String linea;
+                    while ((linea = lector.readLine()) != null) {
+                        String[] partes = linea.split(",");
+                        if (partes.length == 4) {
+                            int id = Integer.parseInt(partes[0].trim());
+                            String cargo = partes[1].trim();
+                            String nombre = partes[2].trim();
+                            String tlf = partes[3].trim();
+                            
+                            insertarTecnico(con, id, cargo, nombre, tlf);
+                        }
+                    }
+                } catch (IOException e) {
+                    System.err.println("Error al leer el fichero");
+                    e.printStackTrace();
+                }
+            } else {
+            System.err.println("El fichero no existe");
+            }
+    }     
+    public static void escribirTecnicosEnArch(Connection con, String fichero) {
+        String queryIds = "SELECT id FROM Tecnico";
+
+        File f = new File(fichero);
+
+        try (
+            FileWriter fw = new FileWriter(f, true);
+            BufferedWriter bw = new BufferedWriter(fw);
+            PreparedStatement pstmtIds = con.prepareStatement(queryIds);
+            ResultSet rsIds = pstmtIds.executeQuery()
+        ) {
+            while (rsIds.next()) {
+                int id = rsIds.getInt("id");
+
+                String subQuery = "SELECT id_Empleado, cargo, nombre, tlf FROM Empleado WHERE id_Empleado = ?";
+                try (
+                    PreparedStatement pstmtEmp = con.prepareStatement(subQuery)
+                ) {
+                    pstmtEmp.setInt(1, id);
+                    ResultSet rsEmp = pstmtEmp.executeQuery();
+
+                    if (rsEmp.next()) {
+                        int idEmpleado = rsEmp.getInt("id_Empleado");
+                        String cargo = rsEmp.getString("cargo");
+                        String nombre = rsEmp.getString("nombre");
+                        String tlf = rsEmp.getString("tlf");
+
+                        String linea = idEmpleado + "," + cargo + "," + nombre + "," + tlf;
+                        bw.write(linea);
+                        bw.newLine();
+                    }
+                }
+            }
+            System.out.println("Técnicos exportados al fichero.");
+        } catch (IOException e) {
+            System.err.println("Error al escribir en el fichero.");
+            e.printStackTrace();
+        } catch (SQLException e) {
+            System.err.println("Error al acceder a la base de datos.");
+            e.printStackTrace();
         }
-    }    
-            
+    }
 }

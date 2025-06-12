@@ -1,9 +1,13 @@
 package BaseDatos;
-
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Date;
 
 public class EquipoDB {
 
@@ -125,7 +129,8 @@ public class EquipoDB {
          } else {
              System.out.println("No se puede modificar  porque no existe el equipo");
          }
-     } public static void modificarMarca(Connection con, int id, String nuevaMarca) throws SQLException {
+     } 
+     public static void modificarMarca(Connection con, int id, String nuevaMarca) throws SQLException {
         boolean existe = buscarEquipoPorId(con, id);
          if (existe) {
              String sql = "UPDATE Equipo SET marca = ? WHERE id = ?";
@@ -139,4 +144,78 @@ public class EquipoDB {
              System.out.println("No se puede modificar  porque no existe el equipo");
          }
      }
+    
+     public static void modificarIdT(Connection con, int id, int nuevoIdT) throws SQLException {
+        boolean existe = buscarEquipoPorId(con, id);
+        if (existe) {
+            String sql = "UPDATE Equipo SET idT = ? WHERE id = ?";
+            try (PreparedStatement pstmt = con.prepareStatement(sql)) {
+                pstmt.setInt(1, nuevoIdT);
+                pstmt.setInt(2, id);
+                pstmt.executeUpdate();
+                System.out.println("ID Técnico modificado");
+            }
+        } else {
+            System.out.println("No se puede modificar porque no existe el equipo o ese técnico");
+        }
+    }
+    public static void escribirEquiposEnArch(Connection con, String fichero) {
+        String sql = "SELECT id, estado, fecha, modelo, marca, idT FROM Equipo";
+
+        File f = new File(fichero);
+        FileWriter fw = null;
+        BufferedWriter bw = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+
+        try {
+            fw = new FileWriter(f , true);
+            bw = new BufferedWriter(fw);
+            stmt = con.prepareStatement(sql);
+            rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                int id = rs.getInt("id");
+                String estado = rs.getString("estado");
+                Date fecha = rs.getDate("fecha");
+                String modelo = rs.getString("modelo");
+                String marca = rs.getString("marca");
+                int idT = rs.getInt("idT");
+
+                String linea = id + "," + estado + "," + fecha + "," + modelo + "," + marca + "," + idT;
+                bw.write(linea);
+                bw.newLine();
+            }
+            System.out.println("Equipos exportados");
+
+        } catch (IOException e) {
+            System.err.println("Error al escribir en el fichero");
+            e.printStackTrace();
+        } catch (SQLException e) {
+            System.err.println("Error al acceder a la base de datos.");
+            e.printStackTrace();
+        } finally {
+            try {
+                if (rs != null) rs.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            try {
+                if (stmt != null) stmt.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            try {
+                if (bw != null) bw.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            try {
+                if (fw != null) fw.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
 }

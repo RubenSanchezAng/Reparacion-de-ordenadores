@@ -18,6 +18,7 @@ public class OrdenCompraDB {
             pstmt.executeUpdate();
             System.out.println("Orden de compra insertada");
         }
+        
     }
 
     public static boolean buscarOrdenCompraId(Connection con, int idBuscado) throws SQLException {
@@ -86,6 +87,34 @@ public class OrdenCompraDB {
             }
         } else {
             System.out.println("No se puede modificar porque no existe la orden de compra");
+        }
+    }
+    public static void modificarIdA(Connection con, int id, int nuevoIdA) throws SQLException {
+        boolean existe = buscarOrdenCompraId(con, id);
+        if (existe) {
+            String sql = "UPDATE Orden_Compra SET idA = ? WHERE id = ?";
+            try (PreparedStatement pstmt = con.prepareStatement(sql)) {
+                pstmt.setInt(1, nuevoIdA);
+                pstmt.setInt(2, id);
+                pstmt.executeUpdate();
+                System.out.println("ID Administrador modificado");
+            }
+        } else {
+            System.out.println("No se puede modificar porque no existe la orden de compra o ese administrador");
+        }
+    }
+    public static void modificarIdP(Connection con, int id, int nuevoIdA) throws SQLException {
+        boolean existe = buscarOrdenCompraId(con, id);
+        if (existe) {
+            String sql = "UPDATE Orden_Compra SET idP = ? WHERE id = ?";
+            try (PreparedStatement pstmt = con.prepareStatement(sql)) {
+                pstmt.setInt(1, nuevoIdA);
+                pstmt.setInt(2, id);
+                pstmt.executeUpdate();
+                System.out.println("ID Proveedor modificado");
+            }
+        } else {
+            System.out.println("No se puede modificar porque no existe la orden de compra o ese proveedor");
         }
     }
 }

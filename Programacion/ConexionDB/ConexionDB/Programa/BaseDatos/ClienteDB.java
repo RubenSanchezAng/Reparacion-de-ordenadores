@@ -1,5 +1,11 @@
 package BaseDatos;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -122,6 +128,117 @@ public class ClienteDB {
         }
     }
 
+    public static void leerClientesDesdeArch(Connection con, String fichero) {
+        File f = new File(fichero);
+        FileReader fr = null;
+        BufferedReader lector = null;
 
+        if (f.exists()) {
+            try {
+                fr = new FileReader(f);
+                lector = new BufferedReader(fr);
+                String linea;
+                int numLinea = 0;
+
+                System.out.println("Iniciando lectura de clientes desde el fichero: " + fichero);
+
+                while ((linea = lector.readLine()) != null) {
+                    numLinea++;
+                    String[] partes = linea.split(",");
+                    if (partes.length == 4) {
+                        try {
+                            int id = Integer.parseInt(partes[0]);
+                            String correo = partes[1];
+                            String nombre = partes[2];
+                            String direccion = partes[3];
+
+                            insertarCliente(con, id, correo, nombre, direccion);
+
+                        } catch (NumberFormatException e) {
+                            System.err.println("Error de formato numérico" + e.getMessage());
+                        } catch (SQLException e) {
+                            System.err.println("Error de base de datos al insertar cliente" + e.getMessage());
+                        }
+                    } 
+                }
+                System.out.println("Lectura de clientes realizada");
+
+            } catch (IOException e) {
+                System.err.println("Error al leer el fichero: ");
+                e.printStackTrace();
+            } finally {
+                try {
+                    if (lector != null){
+                    lector.close();
+                    } 
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                try {
+                    if (fr != null) fr.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        } else {
+            System.out.println("El fichero no existe");
+        }
+    }
+    public static void escribirClientesEnArch(Connection con, String fichero) {
+        String sql = "SELECT id, correo, nombre, direccion FROM Cliente";
+
+        File f = new File(fichero);
+        FileWriter fw = null;
+        BufferedWriter bw = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+
+        try {
+            fw = new FileWriter(f, true);
+            bw = new BufferedWriter(fw);
+            stmt = con.prepareStatement(sql);
+            rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                int id = rs.getInt("id");
+                String correo = rs.getString("correo");
+                String nombre = rs.getString("nombre");
+                String direccion = rs.getString("direccion");
+
+                String linea = id + "," + correo + "," + nombre + "," + direccion;
+                bw.write(linea);
+                bw.newLine();
+            }
+            System.out.println("Clientes exportados");
+
+        } catch (IOException e) {
+            System.err.println("Error al escribir en el fichero: " + fichero);
+            e.printStackTrace();
+        } catch (SQLException e) {
+            System.err.println("Error al acceder a la base de datos.");
+            e.printStackTrace();
+        } finally {
+            try {
+                if (rs != null) rs.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            try {
+                if (stmt != null) stmt.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            try {
+                if (bw != null) bw.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            try {
+                if (fw != null) fw.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
     
 }

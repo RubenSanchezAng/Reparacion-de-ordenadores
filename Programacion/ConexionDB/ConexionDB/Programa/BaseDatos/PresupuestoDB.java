@@ -90,4 +90,47 @@ public class PresupuestoDB {
             System.out.println("No se puede modificar porque no existe el presupuesto");
         }
     }
+    public static void modificarIdC(Connection con, int id, int nuevoIdC) throws SQLException {
+        boolean existe = buscarPresupuestoPorId(con, id);
+        if (existe) {
+            String sql = "UPDATE Presupuesto SET idC = ? WHERE id = ?";
+            try (PreparedStatement pstmt = con.prepareStatement(sql)) {
+                pstmt.setInt(1, nuevoIdC);
+                pstmt.setInt(2, id);
+                pstmt.executeUpdate();
+                System.out.println("ID Cliente modificado");
+            }
+        } else {
+            System.out.println("No se puede modificar porque no existe el presupuesto o ese cliente");
+        }
+    }
+    public static void modificarIdE(Connection con, int id, int nuevoIdE) throws SQLException {
+        boolean existe = buscarPresupuestoPorId(con, id);
+        if (existe) {
+            String sql = "UPDATE Presupuesto SET idE = ? WHERE id = ?";
+            try (PreparedStatement pstmt = con.prepareStatement(sql)) {
+                pstmt.setInt(1, nuevoIdE);
+                pstmt.setInt(2, id);
+                pstmt.executeUpdate();
+                System.out.println("ID Equipo modificado");
+            }
+        } else {
+            System.out.println("No se puede modificar porque no existe el presupuesto o ese equipo");
+        }
+    }
+    public static void modificarIdF(Connection con, int id, int nuevoIdF) throws SQLException {
+        boolean existe = buscarPresupuestoPorId(con, id);
+        if (existe) {
+            String sql = "UPDATE Presupuesto SET idF = ? WHERE id = ?";
+            try (PreparedStatement pstmt = con.prepareStatement(sql)) {
+                pstmt.setInt(1, nuevoIdF);
+                pstmt.setInt(2, id);
+                pstmt.executeUpdate();
+                System.out.println("ID Factura modificado");
+            }
+        } else {
+            System.out.println("No se puede modificar porque no existe el presupuesto o esa factura");
+        }
+    }
+
 }

@@ -35,8 +35,8 @@ public class LineaCompraDB {
             while (rs.next()) {
                 System.out.println("ID: " + rs.getInt("id"));
                 System.out.println("Número de líneas : " + rs.getInt("nlineas"));
-                System.out.println("ID del Administrativo: " + rs.getInt("ida"));
-                System.out.println("ID de los materiales: " + rs.getInt("idM"));
+                System.out.println("ID del Administrativo que ha realizado la factura: " + rs.getInt("ida"));
+                System.out.println("ID de los materiales de la línea: " + rs.getInt("idM"));
                 System.out.println("-------------");
             }
         }
@@ -51,8 +51,8 @@ public class LineaCompraDB {
                 if (rs.next()) {
                     System.out.println("ID: " + rs.getInt("id"));
                     System.out.println("Número de líneas : " + rs.getInt("nlineas"));
-                    System.out.println("ID del Administrativo: " + rs.getInt("ida"));
-                    System.out.println("ID de los materiales: " + rs.getInt("idM"));
+                    System.out.println("ID del Administrativo que ha realizado la factura: " + rs.getInt("ida"));
+                    System.out.println("ID de los materiales de la línea: " + rs.getInt("idM"));
                     System.out.println("-------------");
                 }
             }
@@ -87,4 +87,34 @@ public class LineaCompraDB {
             System.out.println("No se puede modificar porque no existe la línea de compra");
         }
     }
+    public static void modificarIdA(Connection con, int id, int nuevoIdA) throws SQLException {
+        boolean existe = buscarLineaCompraId(con, id);
+        if (existe) {
+            String sql = "UPDATE Linea_Compra SET idA = ? WHERE id = ?";
+            try (PreparedStatement pstmt = con.prepareStatement(sql)) {
+                pstmt.setInt(1, nuevoIdA);
+                pstmt.setInt(2, id);
+                pstmt.executeUpdate();
+                System.out.println("ID Administrador modificado");
+            }
+        } else {
+            System.out.println("No se puede modificar porque no existe la linea de compra o ese administrador");
+        }
+    }
+
+    public static void modificarIdM(Connection con, int id, int nuevoIdM) throws SQLException {
+    boolean existe = buscarLineaCompraId(con, id);
+    if (existe) {
+        String sql = "UPDATE Linea_Compra SET idM = ? WHERE id = ?";
+        try (PreparedStatement pstmt = con.prepareStatement(sql)) {
+            pstmt.setInt(1, nuevoIdM);
+            pstmt.setInt(2, id);
+            pstmt.executeUpdate();
+            System.out.println("ID Material modificado");
+        }
+    } else {
+        System.out.println("No se puede modificar porque no existe la línea de compra o ese material");
+    }
+}
+
 }

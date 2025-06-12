@@ -1,7 +1,14 @@
 package BaseDatos;
 
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -105,6 +112,87 @@ public class AlmacenDB {
             }
         } else {
             System.out.println("No se puede modificar  porque no existe el almacen");
+        }
+    }
+        public static void leerAlmacenesDesdeArch(Connection con, String fichero) throws SQLException {
+        File f = new File(fichero);
+        if (f.exists()) {
+            try {
+                FileReader fr = new FileReader(f);
+                BufferedReader lector = new BufferedReader(fr);
+                String linea;
+
+                while ((linea = lector.readLine()) != null) {
+                    String[] partes = linea.split(",");
+                    if (partes.length == 3) {
+                        int id = Integer.parseInt(partes[0].trim());
+                        Date fecha = Date.valueOf(partes[1].trim()); 
+                        String ubicacion = partes[2].trim();
+                        AlmacenDB.insertarAlmacen(con, id, fecha, ubicacion);
+                    }
+                }
+                lector.close();
+                fr.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else {
+            System.err.println("El fichero no existe");
+        }
+    }
+    public static void escribirAlmacenesEnArch(Connection con, String fichero) {
+        String sql = "SELECT id, fecha, ubicacion FROM Almacen";
+
+        File f = new File(fichero);
+        FileWriter fw = null;
+        BufferedWriter bw = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+
+        try {
+            fw = new FileWriter(f, true);
+            bw = new BufferedWriter(fw);
+            stmt = con.prepareStatement(sql);
+            rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                int id = rs.getInt("id");
+                Date fecha = rs.getDate("fecha");
+                String ubicacion = rs.getString("ubicacion");
+
+                String linea = id + "," + fecha + "," + ubicacion;
+                bw.write(linea);
+                bw.newLine();
+            }
+            System.out.println("Almacenes exportados");
+
+        } catch (IOException e) {
+            System.err.println("Error al escribir en el fichero");
+            e.printStackTrace();
+        } catch (SQLException e) {
+            System.err.println("Error al acceder a la base de datos.");
+            e.printStackTrace();
+        } finally {
+            try {
+                if (rs != null) rs.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            try {
+                if (stmt != null) stmt.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            try {
+                if (bw != null) bw.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            try {
+                if (fw != null) fw.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 }

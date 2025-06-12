@@ -22,7 +22,7 @@ public class AdministrativoDB {
             pstmtAdmin.setInt(1, id);
             pstmtAdmin.executeUpdate();
         }
-    
+
         System.out.println("Administrativo insertado.");
     }
     public static boolean buscarAdministrativoPorId(Connection con, int idBuscado) throws SQLException {
@@ -39,7 +39,7 @@ public class AdministrativoDB {
     }
     
     
-    public static void verTAdministrativos(Connection con) throws SQLException {
+    public static void verAdministrativos(Connection con) throws SQLException {
         String queryIds = "SELECT id FROM Administrativo";
         try (PreparedStatement pstmtIds = con.prepareStatement(queryIds)) {
             ResultSet rsIds = pstmtIds.executeQuery();
@@ -77,45 +77,31 @@ public class AdministrativoDB {
                 }
             }
         } else {
-            System.out.println("No se puede mostrar porque no existe el administrativo");
+            System.out.println("No se puede mostrar porque no existe el administrativo que buscas");
         }
     }
    
     public static void borrarAdministrativoPorId(Connection con, int idBorrar) throws SQLException {
-        boolean existe = buscarAdministrativoPorId(con, idBorrar);
-        if (existe) {
-            String deleteAdministrativo = "DELETE FROM Administrativo WHERE id = ?";
-            try (PreparedStatement pstmt1 = con.prepareStatement(deleteAdministrativo)) {
-                pstmt1.setInt(1, idBorrar);
-                pstmt1.executeUpdate();
-            }
-    
-            String deleteEmpleado = "DELETE FROM Empleado WHERE id_Empleado = ?";
-            try (PreparedStatement pstmt2 = con.prepareStatement(deleteEmpleado)) {
-                pstmt2.setInt(1, idBorrar);
-                pstmt2.executeUpdate();
-            }
-    
-            System.out.println("administrativo borrado");
-        } else {
-            System.out.println("No se puede borrar porque no existe el administrativo");
+    boolean existe = buscarAdministrativoPorId(con, idBorrar);
+    if (existe) {
+
+        String deleteAdministrativo = "DELETE FROM Administrativo WHERE id = ?";
+        try (PreparedStatement pstmt1 = con.prepareStatement(deleteAdministrativo)) {
+            pstmt1.setInt(1, idBorrar);
+            pstmt1.executeUpdate();
         }
+        String deleteEmpleado = "DELETE FROM Empleado WHERE id_Empleado = ?";
+        try (PreparedStatement pstmt2 = con.prepareStatement(deleteEmpleado)) {
+            pstmt2.setInt(1, idBorrar);
+            pstmt2.executeUpdate();
+        }
+
+        System.out.println("Administrativo borrado");
+    } else 
+        System.out.println("No se puede borrar porque no existe el administrativo");
+    
     }
 
-    public static void modificarCargo(Connection con, int id, String nuevoCargo) throws SQLException {
-        boolean existe = buscarAdministrativoPorId(con, id);
-        if (existe) {
-            String sql = "UPDATE Empleado SET cargo = ? WHERE id_Empleado = ?";
-            try (PreparedStatement pstmt = con.prepareStatement(sql)) {
-                pstmt.setString(1, nuevoCargo);
-                pstmt.setInt(2, id);
-                pstmt.executeUpdate();
-                System.out.println("Cargo modificado");
-            }
-        } else {
-            System.out.println("No se puede modificar porque no existe el administrativo");
-        }
-    }
 
     public static void modificarTelefono(Connection con, int id, String nuevoTelefono) throws SQLException {
         boolean existe = buscarAdministrativoPorId(con, id);
