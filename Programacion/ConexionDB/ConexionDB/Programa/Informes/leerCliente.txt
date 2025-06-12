@@ -1,0 +1,4 @@
+1,ana.garcia@example.com,Ana García,Calle Mayor 12
+2,luis.rodriguez@example.com,Luis Rodríguez,Av. del Sol 45
+3,maria.lopez@example.com,María López,Plaza Central 5
+4,carlos.martin@example.com,Carlos Martín,Calle Luna 33

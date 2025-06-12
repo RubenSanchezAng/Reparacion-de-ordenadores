@@ -1,0 +1,5 @@
+1,Reparado,2025-05-01,XPS 13,Dell,4
+2,En reparación,2025-05-02,MacBook Pro,Apple,3
+3,Pendiente diagnóstico,2025-05-03,Aspire 5,Acer,3
+4,Reparado,2025-05-04,ThinkPad X1,Lenovo,4
+5,reparando,2021-12-12,nike,adidas,4

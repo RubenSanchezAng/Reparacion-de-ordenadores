@@ -1,0 +1,5 @@
+105,Administrador de sistemas,David Sánchez,644567890
+3,Técnico,Pedro Morales,622345678
+4,Técnico,Ruiz,2332
+105,Administrador de sistemas,David Sánchez,644567890
+120,233823,Juan,233823
