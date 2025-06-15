@@ -2,14 +2,14 @@ CREATE DATABASE ReparacionOrdenadores;
 USE ReparacionOrdenadores;
 
 CREATE TABLE Cliente (
-    id INT PRIMARY KEY,
+    id INT AUTO_INCREMENT PRIMARY KEY,
     correo VARCHAR(100),
     nombre VARCHAR(100),
     direccion VARCHAR(200)
 );
 
 CREATE TABLE Empleado (
-    id_Empleado INT PRIMARY KEY,
+    id_Empleado INT AUTO_INCREMENT PRIMARY KEY,
     cargo VARCHAR(100),
     nombre VARCHAR(100),
     tlf VARCHAR(20)
@@ -26,7 +26,7 @@ CREATE TABLE Tecnico (
 );
 
 CREATE TABLE Equipo (
-    id INT PRIMARY KEY,
+    id INT AUTO_INCREMENT PRIMARY KEY,
     estado VARCHAR(50),
     fecha DATE,
     modelo VARCHAR(100),
@@ -36,14 +36,14 @@ CREATE TABLE Equipo (
 );
 
 CREATE TABLE Factura (
-    id INT PRIMARY KEY,
+    id INT AUTO_INCREMENT PRIMARY KEY,
     cantidad DOUBLE,  
     idA INT,
     FOREIGN KEY (idA) REFERENCES Administrativo(id)
 );
 
 CREATE TABLE Presupuesto (
-    id INT PRIMARY KEY,
+    id INT AUTO_INCREMENT PRIMARY KEY,
     cantidad DOUBLE,  
     idE INT,
     idC INT,
@@ -54,13 +54,13 @@ CREATE TABLE Presupuesto (
 );
 
 CREATE TABLE Almacen (
-    id INT PRIMARY KEY,
+    id INT AUTO_INCREMENT PRIMARY KEY,
     fecha DATE,
     ubicacion VARCHAR(100)
 );
 
 CREATE TABLE Materiales (
-    id INT PRIMARY KEY,
+    id INT AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(100),
     stock INT,
     coste DOUBLE,  
@@ -77,13 +77,13 @@ CREATE TABLE Presupuesto_Materiales (
 );
 
 CREATE TABLE Proveedor (
-    id INT PRIMARY KEY,
+    id INT AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(100),
     telefono VARCHAR(20)
 );
 
 CREATE TABLE Orden_Compra (
-    id INT PRIMARY KEY,
+    id INT AUTO_INCREMENT PRIMARY KEY,
     fecha DATE,
     idP INT,    
     idA INT,
@@ -92,10 +92,12 @@ CREATE TABLE Orden_Compra (
 );
 
 CREATE TABLE Linea_Compra (
-    id INT PRIMARY KEY,
+    id INT AUTO_INCREMENT PRIMARY KEY,
     nlineas INT,
     ida INT,
     idM INT,
     FOREIGN KEY (ida) REFERENCES Orden_Compra(id),
     FOREIGN KEY (idM) REFERENCES Materiales(id)
 );
+ALTER TABLE Factura ADD COLUMN idP INT;
+ALTER TABLE Factura ADD FOREIGN KEY (idP) REFERENCES Presupuesto(id);
