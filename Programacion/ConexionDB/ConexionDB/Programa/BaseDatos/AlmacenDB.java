@@ -15,16 +15,16 @@ import java.sql.SQLException;
 
 public class AlmacenDB {
 
-    public static void insertarAlmacen(Connection con, int id, java.sql.Date fecha, String ubicacion) throws SQLException {
-        String insert = "INSERT INTO Almacen (id, fecha, ubicacion) VALUES (?, ?, ?)";
+    public static void insertarAlmacen(Connection con, java.sql.Date fecha, String ubicacion) throws SQLException {
+        String insert = "INSERT INTO Almacen (fecha, ubicacion) VALUES (?, ?)";
         try (PreparedStatement pstmt = con.prepareStatement(insert)) {
-            pstmt.setInt(1, id);
-            pstmt.setDate(2, fecha);
-            pstmt.setString(3, ubicacion);
+            pstmt.setDate(1, fecha);
+            pstmt.setString(2, ubicacion);
             pstmt.executeUpdate();
             System.out.println("almacen insertado");
         }
     }
+
 
     public static boolean buscarAlmacenPorId(Connection con, int idBuscado) throws SQLException {
         boolean existe = false;
@@ -128,7 +128,7 @@ public class AlmacenDB {
                         int id = Integer.parseInt(partes[0].trim());
                         Date fecha = Date.valueOf(partes[1].trim()); 
                         String ubicacion = partes[2].trim();
-                        AlmacenDB.insertarAlmacen(con, id, fecha, ubicacion);
+                        AlmacenDB.insertarAlmacen(con, fecha, ubicacion);
                     }
                 }
                 lector.close();

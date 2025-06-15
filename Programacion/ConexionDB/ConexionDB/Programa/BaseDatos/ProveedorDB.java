@@ -7,12 +7,11 @@ import java.sql.SQLException;
 
 public class ProveedorDB {
 
-    public static void insertarProveedor(Connection con, int id, String nombre, String telefono) throws SQLException {
-        String insert = "INSERT INTO Proveedor (id, nombre, telefono) VALUES (?, ?, ?)";
+    public static void insertarProveedor(Connection con, String nombre, String telefono) throws SQLException {
+        String insert = "INSERT INTO Proveedor (nombre, telefono) VALUES (?, ?)";
         try (PreparedStatement pstmt = con.prepareStatement(insert)) {
-            pstmt.setInt(1, id);
-            pstmt.setString(2, nombre);
-            pstmt.setString(3, telefono);
+            pstmt.setString(1, nombre);
+            pstmt.setString(2, telefono);
             pstmt.executeUpdate();
             System.out.println("Proveedor insertado");
         }

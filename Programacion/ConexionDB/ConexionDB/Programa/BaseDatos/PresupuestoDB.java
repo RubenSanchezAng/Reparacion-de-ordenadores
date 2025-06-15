@@ -7,18 +7,18 @@ import java.sql.SQLException;
 
 public class PresupuestoDB {
 
-    public static void insertarPresupuesto(Connection con, int id, double cantidad, int idE, int idC, int idF) throws SQLException {
-        String insert = "INSERT INTO Presupuesto (id, cantidad, idE, idC, idF) VALUES (?, ?, ?, ?, ?)";
+    public static void insertarPresupuesto(Connection con, double cantidad, int idE, int idC, int idF) throws SQLException {
+        String insert = "INSERT INTO Presupuesto (cantidad, idE, idC, idF) VALUES (?, ?, ?, ?)";
         try (PreparedStatement pstmt = con.prepareStatement(insert)) {
-            pstmt.setInt(1, id);
-            pstmt.setDouble(2, cantidad);
-            pstmt.setInt(3, idE);
-            pstmt.setInt(4, idC);
-            pstmt.setInt(5, idF);
+            pstmt.setDouble(1, cantidad);
+            pstmt.setInt(2, idE);
+            pstmt.setInt(3, idC);
+            pstmt.setInt(4, idF);
             pstmt.executeUpdate();
             System.out.println("Presupuesto insertado");
         }
     }
+
 
     public static boolean buscarPresupuestoPorId(Connection con, int idBuscado) throws SQLException {
         String query = "SELECT id FROM Presupuesto WHERE id = ?";

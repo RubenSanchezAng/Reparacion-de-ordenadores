@@ -10,16 +10,15 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class FacturaDB {
-    public static void insertarFactura(Connection con, int id, Double cantidad, int idA) throws SQLException {
-        String insert = "INSERT INTO Factura (id, cantidad, idA) VALUES (?, ?, ?)";
+
+    public static void insertarFactura(Connection con, Double cantidad, int idA, int idP) throws SQLException {
+        String insert = "INSERT INTO Factura (cantidad, idA, idP) VALUES (?, ?, ?)";
         try (PreparedStatement pstmt = con.prepareStatement(insert)) {
-            pstmt.setInt(1, id);
-            pstmt.setDouble(2, cantidad);
-            pstmt.setInt(3, idA);
+            pstmt.setDouble(1, cantidad);
+            pstmt.setInt(2, idA);
+            pstmt.setInt(3, idP);
             pstmt.executeUpdate();
-
             System.out.println("Factura insertada");
-
         }
     }
 
@@ -37,28 +36,31 @@ public class FacturaDB {
     }
     
     public static void verFacturas(Connection con) throws SQLException {
-        String query = "SELECT id, cantidad, idA FROM Factura";
+        String query = "SELECT id, cantidad, idA, idP FROM Factura";
         try (PreparedStatement pstmt = con.prepareStatement(query)) {
             ResultSet rs = pstmt.executeQuery();
             while (rs.next()) {
                 System.out.println("ID: " + rs.getInt("id"));
-                System.out.println("Cantidad : " + rs.getDouble("cantidad"));
-                System.out.println("ID del Administrativo que ha hecho la factura: " + rs.getInt("idA"));
+                System.out.println("Cantidad: " + rs.getDouble("cantidad"));
+                System.out.println("ID Administrativo: " + rs.getInt("idA"));
+                System.out.println("ID Presupuesto: " + rs.getInt("idP"));
                 System.out.println("-------------");
             }
         }
     }
+    
     public static void verFacturaPorId(Connection con, int idBuscado) throws SQLException {
         boolean existe = buscarFacturaPorId(con, idBuscado);
         if (existe) {
-            String query = "SELECT id, cantidad, idA FROM Factura WHERE id = ?";
+            String query = "SELECT id, cantidad, idA, idP FROM Factura WHERE id = ?";
             try (PreparedStatement pstmt = con.prepareStatement(query)) {
                 pstmt.setInt(1, idBuscado);
                 ResultSet rs = pstmt.executeQuery();
                 if (rs.next()) {
                     System.out.println("ID: " + rs.getInt("id"));
-                    System.out.println("Cantidad : " + rs.getDouble("cantidad"));
-                    System.out.println("ID del Administrativo que ha hecho la factura: " + rs.getInt("idA"));
+                    System.out.println("Cantidad: " + rs.getDouble("cantidad"));
+                    System.out.println("ID Administrativo: " + rs.getInt("idA"));
+                    System.out.println("ID Presupuesto: " + rs.getInt("idP"));
                     System.out.println("-------------");
                 }
             }
@@ -70,7 +72,6 @@ public class FacturaDB {
     public static void borrarFacturaPorId(Connection con, int idBorrar) throws SQLException {
         boolean existe = buscarFacturaPorId(con, idBorrar);
         if (existe) {
-
             String delete = "DELETE FROM Factura WHERE id = ?";
             try (PreparedStatement pstmt = con.prepareStatement(delete)) {
                 pstmt.setInt(1, idBorrar);
@@ -81,22 +82,23 @@ public class FacturaDB {
             System.out.println("No se puede borrar porque no existe la factura");
         }
     }
+
     public static void modificarCantidad(Connection con, int id, Double nuevaCantidad) throws SQLException {
         boolean existe = buscarFacturaPorId(con, id);
-         if (existe) {
-             String sql = "UPDATE Factura SET cantidad = ? WHERE id = ?";
-             try (PreparedStatement pstmt = con.prepareStatement(sql)) {
-                 pstmt.setDouble(1, nuevaCantidad);
-                 pstmt.setInt(2, id);
-                 pstmt.executeUpdate();
-                 System.out.println("Cantidad modificada");
-             }
-         } else {
-             System.out.println("No se puede modificar  porque no existe la factura");
-         }
-     }
+        if (existe) {
+            String sql = "UPDATE Factura SET cantidad = ? WHERE id = ?";
+            try (PreparedStatement pstmt = con.prepareStatement(sql)) {
+                pstmt.setDouble(1, nuevaCantidad);
+                pstmt.setInt(2, id);
+                pstmt.executeUpdate();
+                System.out.println("Cantidad modificada");
+            }
+        } else {
+            System.out.println("No se puede modificar porque no existe la factura");
+        }
+    }
 
-   public static void modificarIdA(Connection con, int id, int nuevoIdA) throws SQLException {
+    public static void modificarIdA(Connection con, int id, int nuevoIdA) throws SQLException {
         boolean existe = buscarFacturaPorId(con, id);
         if (existe) {
             String sql = "UPDATE Factura SET idA = ? WHERE id = ?";
@@ -104,13 +106,27 @@ public class FacturaDB {
                 pstmt.setInt(1, nuevoIdA);
                 pstmt.setInt(2, id);
                 pstmt.executeUpdate();
-                System.out.println("ID Administrador modificado");
+                System.out.println("ID Administrativo modificado");
             }
         } else {
-            System.out.println("No se puede modificar porque no existe el equipo o ese administrador");
+            System.out.println("No se puede modificar porque no existe la factura");
         }
     }
-
+    
+    public static void modificarIdP(Connection con, int id, int nuevoIdP) throws SQLException {
+        boolean existe = buscarFacturaPorId(con, id);
+        if (existe) {
+            String sql = "UPDATE Factura SET idP = ? WHERE id = ?";
+            try (PreparedStatement pstmt = con.prepareStatement(sql)) {
+                pstmt.setInt(1, nuevoIdP);
+                pstmt.setInt(2, id);
+                pstmt.executeUpdate();
+                System.out.println("ID Presupuesto modificado");
+            }
+        } else {
+            System.out.println("No se puede modificar porque no existe la factura");
+        }
+    }
 
     public static void leerFacturasDesdeArch(Connection con, String fichero) throws SQLException {
         File f = new File(fichero);
@@ -122,11 +138,13 @@ public class FacturaDB {
 
                 while ((linea = lector.readLine()) != null) {
                     String[] partes = linea.split(",");
-                    if (partes.length == 3) {
-                        int id = Integer.parseInt(partes[0].trim());
-                        double cantidad = Double.parseDouble(partes[1].trim());
-                        int idA = Integer.parseInt(partes[2].trim());
-                        FacturaDB.insertarFactura(con, id, cantidad, idA);
+                    if (partes.length == 4) {
+                        // Ajusta si en el fichero tienes id, cantidad, idA, idP o solo cantidad, idA, idP
+                        // Aquí asumo que no tienes el id, solo cantidad, idA, idP
+                        double cantidad = Double.parseDouble(partes[0].trim());
+                        int idA = Integer.parseInt(partes[1].trim());
+                        int idP = Integer.parseInt(partes[2].trim());
+                        insertarFactura(con, cantidad, idA, idP);
                     }
                 }
                 lector.close();
@@ -137,6 +155,5 @@ public class FacturaDB {
         } else {
             System.err.println("El fichero no existe");
         }
-
     }
 }

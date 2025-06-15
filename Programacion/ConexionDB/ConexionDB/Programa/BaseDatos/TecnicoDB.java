@@ -11,27 +11,37 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 public class TecnicoDB {
     
 
-    public static void insertarTecnico(Connection con, int id, String cargo, String nombre, String tlf) throws SQLException {
-        String insertEmpleado = "INSERT INTO Empleado (id_Empleado, cargo, nombre, tlf) VALUES (?, ?, ?, ?)";
+   public static void insertarTecnico(Connection con, String cargo, String nombre, String tlf) throws SQLException {
+
+        String insertEmpleado = "INSERT INTO Empleado (cargo, nombre, tlf) VALUES (?, ?, ?)";
         try (PreparedStatement pstmtEmpleado = con.prepareStatement(insertEmpleado)) {
-            pstmtEmpleado.setInt(1, id);
-            pstmtEmpleado.setString(2, cargo);
-            pstmtEmpleado.setString(3, nombre);
-            pstmtEmpleado.setString(4, tlf);
+            pstmtEmpleado.setString(1, cargo);
+            pstmtEmpleado.setString(2, nombre);
+            pstmtEmpleado.setString(3, tlf);
             pstmtEmpleado.executeUpdate();
         }
-    
-        String insertaTecnico = "INSERT INTO Tecnico (id) VALUES (?)";
-        try (PreparedStatement pstmtTec = con.prepareStatement(insertaTecnico)) {
-            pstmtTec.setInt(1, id);
-            pstmtTec.executeUpdate();
+
+        int idGenerado = -1;
+        String obtenerId = "SELECT LAST_INSERT_ID()";
+        try (Statement stmt = con.createStatement();
+            ResultSet rs = stmt.executeQuery(obtenerId)) {
+            if (rs.next()) {
+                idGenerado = rs.getInt(1);
+            }
         }
-    
-        System.out.println("Técnico insertado.");
+
+        if (idGenerado != -1) {
+            String insertaAdministrativo = "INSERT INTO Tecnico (id) VALUES (?)";
+            try (PreparedStatement pstmtAdmin = con.prepareStatement(insertaAdministrativo)) {
+                pstmtAdmin.setInt(1, idGenerado);
+                pstmtAdmin.executeUpdate();
+            }
+        }
     }
     public static boolean buscarTecnicoPorId(Connection con, int idBuscado) throws SQLException {
         boolean existe = false;
@@ -169,7 +179,7 @@ public class TecnicoDB {
                             String nombre = partes[2].trim();
                             String tlf = partes[3].trim();
                             
-                            insertarTecnico(con, id, cargo, nombre, tlf);
+                            insertarTecnico(con, cargo, nombre, tlf);
                         }
                     }
                 } catch (IOException e) {

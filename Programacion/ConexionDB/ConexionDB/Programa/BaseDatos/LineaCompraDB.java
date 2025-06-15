@@ -7,17 +7,17 @@ import java.sql.SQLException;
 
 public class LineaCompraDB {
 
-    public static void insertarLineaCompra(Connection con, int id, int nlineas, int ida, int idM) throws SQLException {
-        String insert = "INSERT INTO Linea_Compra (id, nlineas, ida, idM) VALUES (?, ?, ?, ?)";
+        public static void insertarLineaCompra(Connection con, int nlineas, int ida, int idM) throws SQLException {
+        String insert = "INSERT INTO Linea_Compra (nlineas, ida, idM) VALUES (?, ?, ?)";
         try (PreparedStatement pstmt = con.prepareStatement(insert)) {
-            pstmt.setInt(1, id);
-            pstmt.setInt(2, nlineas);
-            pstmt.setInt(3, ida);
-            pstmt.setInt(4, idM);
+            pstmt.setInt(1, nlineas);
+            pstmt.setInt(2, ida);
+            pstmt.setInt(3, idM);
             pstmt.executeUpdate();
             System.out.println("Línea de compra insertada");
         }
     }
+
 
     public static boolean buscarLineaCompraId(Connection con, int idBuscado) throws SQLException {
         String query = "SELECT id FROM Linea_Compra WHERE id = ?";

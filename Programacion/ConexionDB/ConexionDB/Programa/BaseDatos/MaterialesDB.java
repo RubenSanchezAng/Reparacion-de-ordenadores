@@ -6,18 +6,19 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class MaterialesDB {
-    public static void insertarMaterial(Connection con, int id, String nombre, int stock, double coste, int idA) throws SQLException {
-        String insert = "INSERT INTO Materiales (id, nombre, stock, coste, idA) VALUES (?, ?, ?, ?, ?)";
+   
+    public static void insertarMaterial(Connection con, String nombre, int stock, double coste, int idA) throws SQLException {
+        String insert = "INSERT INTO Materiales (nombre, stock, coste, idA) VALUES (?, ?, ?, ?)";
         try (PreparedStatement pstmt = con.prepareStatement(insert)) {
-            pstmt.setInt(1, id);
-            pstmt.setString(2, nombre);
-            pstmt.setInt(3, stock);
-            pstmt.setDouble(4, coste);
-            pstmt.setInt(5, idA);
+            pstmt.setString(1, nombre);
+            pstmt.setInt(2, stock);
+            pstmt.setDouble(3, coste);
+            pstmt.setInt(4, idA);
             pstmt.executeUpdate();
             System.out.println("Material insertado");
         }
     }
+
 
     public static boolean buscarMaterialPorId(Connection con, int idBuscado) throws SQLException {
         String query = "SELECT id FROM Materiales WHERE id = ?";

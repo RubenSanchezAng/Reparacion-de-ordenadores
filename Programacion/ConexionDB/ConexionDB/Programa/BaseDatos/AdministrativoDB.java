@@ -5,25 +5,35 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 public class AdministrativoDB {
-    public static void insertarAdministrativo(Connection con, int id, String cargo, String nombre, String tlf) throws SQLException {
-        String insertEmpleado = "INSERT INTO Empleado (id_Empleado, cargo, nombre, tlf) VALUES (?, ?, ?, ?)";
+   public static void insertarAdministrativo(Connection con, String cargo, String nombre, String tlf) throws SQLException {
+
+        String insertEmpleado = "INSERT INTO Empleado (cargo, nombre, tlf) VALUES (?, ?, ?)";
         try (PreparedStatement pstmtEmpleado = con.prepareStatement(insertEmpleado)) {
-            pstmtEmpleado.setInt(1, id);
-            pstmtEmpleado.setString(2, cargo);
-            pstmtEmpleado.setString(3, nombre);
-            pstmtEmpleado.setString(4, tlf);
+            pstmtEmpleado.setString(1, cargo);
+            pstmtEmpleado.setString(2, nombre);
+            pstmtEmpleado.setString(3, tlf);
             pstmtEmpleado.executeUpdate();
         }
-    
-        String insertaAdministrativo = "INSERT INTO Administrativo (id) VALUES (?)";
-        try (PreparedStatement pstmtAdmin = con.prepareStatement(insertaAdministrativo)) {
-            pstmtAdmin.setInt(1, id);
-            pstmtAdmin.executeUpdate();
+
+        int idGenerado = -1;
+        String obtenerId = "SELECT LAST_INSERT_ID()";
+        try (Statement stmt = con.createStatement();
+            ResultSet rs = stmt.executeQuery(obtenerId)) {
+            if (rs.next()) {
+                idGenerado = rs.getInt(1);
+            }
         }
 
-        System.out.println("Administrativo insertado.");
+        if (idGenerado != -1) {
+            String insertaAdministrativo = "INSERT INTO Administrativo (id) VALUES (?)";
+            try (PreparedStatement pstmtAdmin = con.prepareStatement(insertaAdministrativo)) {
+                pstmtAdmin.setInt(1, idGenerado);
+                pstmtAdmin.executeUpdate();
+            }
+        }
     }
     public static boolean buscarAdministrativoPorId(Connection con, int idBuscado) throws SQLException {
         boolean existe = false;

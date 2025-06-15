@@ -13,13 +13,12 @@ import java.sql.SQLException;
 
 public class ClienteDB {
     
-    public static void insertarCliente(Connection con, int id, String correo, String nombre, String direccion) throws SQLException {
-        String insert = "INSERT INTO Cliente (id, correo, nombre, direccion) VALUES (?, ?, ?, ?)";
+    public static void insertarCliente(Connection con, String correo, String nombre, String direccion) throws SQLException {
+        String insert = "INSERT INTO Cliente (correo, nombre, direccion) VALUES (?, ?, ?)";
         try (PreparedStatement pstmt = con.prepareStatement(insert)) {
-            pstmt.setInt(1, id);
-            pstmt.setString(2, correo);
-            pstmt.setString(3, nombre);
-            pstmt.setString(4, direccion);
+            pstmt.setString(1, correo);
+            pstmt.setString(2, nombre);
+            pstmt.setString(3, direccion);
             pstmt.executeUpdate();
             System.out.println("Filas insertadas");
         }
@@ -152,7 +151,7 @@ public class ClienteDB {
                             String nombre = partes[2];
                             String direccion = partes[3];
 
-                            insertarCliente(con, id, correo, nombre, direccion);
+                            insertarCliente(con,  correo, nombre, direccion);
 
                         } catch (NumberFormatException e) {
                             System.err.println("Error de formato numérico" + e.getMessage());

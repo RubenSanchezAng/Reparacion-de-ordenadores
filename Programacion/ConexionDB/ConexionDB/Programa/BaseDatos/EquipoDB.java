@@ -11,15 +11,14 @@ import java.util.Date;
 
 public class EquipoDB {
 
-    public static void insertarEquipo(Connection con, int id, String estado, java.sql.Date fecha, String modelo, String marca, int idT) throws SQLException {
-        String insert = "INSERT INTO Equipo (id, estado, fecha, modelo, marca, idT) VALUES (?, ?, ?, ?, ?, ?)";
+    public static void insertarEquipo(Connection con, String estado, java.sql.Date fecha, String modelo, String marca, int idT) throws SQLException {
+        String insert = "INSERT INTO Equipo (estado, fecha, modelo, marca, idT) VALUES (?, ?, ?, ?, ?)";
         try (PreparedStatement pstmt = con.prepareStatement(insert)) {
-            pstmt.setInt(1, id);
-            pstmt.setString(2, estado);
-            pstmt.setDate(3, fecha);
-            pstmt.setString(4, modelo);
-            pstmt.setString(5, marca);
-            pstmt.setInt(6, idT);
+            pstmt.setString(1, estado);
+            pstmt.setDate(2, fecha);
+            pstmt.setString(3, modelo);
+            pstmt.setString(4, marca);
+            pstmt.setInt(5, idT);
             pstmt.executeUpdate();
             System.out.println("equipo insertado");
         }

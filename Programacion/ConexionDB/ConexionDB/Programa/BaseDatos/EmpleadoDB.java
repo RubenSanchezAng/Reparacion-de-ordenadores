@@ -4,48 +4,49 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 public class EmpleadoDB {
-public static void insertarEmpleado(Connection con, int id, String cargo, String nombre, String tlf) throws SQLException {
-    if (cargo.equalsIgnoreCase("administrativo")) {
-
-        String insertEmpleadoSQL = "INSERT INTO Empleado (id_Empleado, cargo, nombre, tlf) VALUES (?, ?, ?, ?)";
-        try (PreparedStatement pstmt = con.prepareStatement(insertEmpleadoSQL)) {
-            pstmt.setInt(1, id);
-            pstmt.setString(2, "administrativo");
-            pstmt.setString(3, nombre);
-            pstmt.setString(4, tlf);
-            pstmt.executeUpdate();
+    
+    public static void insertarEmpleado(Connection con, String cargo, String nombre, String tlf) throws SQLException {
+        String insertEmpleado = "INSERT INTO Empleado (cargo, nombre, tlf) VALUES (?, ?, ?)";
+        try (PreparedStatement pstmtEmpleado = con.prepareStatement(insertEmpleado)) {
+            pstmtEmpleado.setString(1, cargo);
+            pstmtEmpleado.setString(2, nombre);
+            pstmtEmpleado.setString(3, tlf);
+            pstmtEmpleado.executeUpdate();
         }
 
-        try (PreparedStatement pstmt = con.prepareStatement("INSERT INTO Administrativo (id) VALUES (?)")) {
-            pstmt.setInt(1, id);
-            pstmt.executeUpdate();
+        int idGenerado = -1;
+        String obtenerId = "SELECT LAST_INSERT_ID()";
+        try (Statement stmt = con.createStatement();
+            ResultSet rs = stmt.executeQuery(obtenerId)) {
+            if (rs.next()) {
+                idGenerado = rs.getInt(1);
+            }
         }
 
-        System.out.println("Empleado insertado");
-
-    } else if (cargo.equalsIgnoreCase("tecnico")) {
-
-        String insertEmpleadoSQL = "INSERT INTO Empleado (id_Empleado, cargo, nombre, tlf) VALUES (?, ?, ?, ?)";
-        try (PreparedStatement pstmt = con.prepareStatement(insertEmpleadoSQL)) {
-            pstmt.setInt(1, id);
-            pstmt.setString(2, "técnico");
-            pstmt.setString(3, nombre);
-            pstmt.setString(4, tlf);
-            pstmt.executeUpdate();
+        if (idGenerado != -1) {
+            if (cargo.equalsIgnoreCase("administrativo")) {
+                String insertarAdmin = "INSERT INTO Administrativo (id) VALUES (?)";
+                try (PreparedStatement pstmtAdmin = con.prepareStatement(insertarAdmin)) {
+                    pstmtAdmin.setInt(1, idGenerado);
+                    pstmtAdmin.executeUpdate();
+                }
+            } else if (cargo.equalsIgnoreCase("técnico") || cargo.equalsIgnoreCase("tecnico")) {
+                String insertarTec = "INSERT INTO Tecnico (id) VALUES (?)";
+                try (PreparedStatement pstmtTec = con.prepareStatement(insertarTec)) {
+                    pstmtTec.setInt(1, idGenerado);
+                    pstmtTec.executeUpdate();
+                }
+            } else {
+                System.out.println("Cargo no reconocido: " + cargo);
+            }
+            System.out.println("Empleado insertado con id " + idGenerado);
+        } else {
+            System.out.println("No se pudo obtener el id generado");
         }
-        try (PreparedStatement pstmt = con.prepareStatement("INSERT INTO Tecnico (id) VALUES (?)")) {
-            pstmt.setInt(1, id);
-            pstmt.executeUpdate();
-        }
-
-        System.out.println("Empleado insertado");
-
-    } else {
-        System.out.println("Empleado no insertado porque el cargo debe ser administrativo o técnico");
     }
-}
     public static boolean buscarEmpleadoPorId(Connection con, int idBuscado) throws SQLException {
         boolean existe = false;
         String query = "SELECT id_Empleado FROM Empleado WHERE id_Empleado = ?";

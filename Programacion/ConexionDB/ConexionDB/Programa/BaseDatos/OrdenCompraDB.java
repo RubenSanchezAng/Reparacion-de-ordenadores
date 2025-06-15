@@ -8,18 +8,17 @@ import java.sql.SQLException;
 
 public class OrdenCompraDB {
 
-    public static void insertarOrdenCompra(Connection con, int id, Date fecha, int idP, int idA) throws SQLException {
-        String insert = "INSERT INTO Orden_Compra (id, fecha, idP, idA) VALUES (?, ?, ?, ?)";
+    public static void insertarOrdenCompra(Connection con, Date fecha, int idP, int idA) throws SQLException {
+        String insert = "INSERT INTO Orden_Compra (fecha, idP, idA) VALUES (?, ?, ?)";
         try (PreparedStatement pstmt = con.prepareStatement(insert)) {
-            pstmt.setInt(1, id);
-            pstmt.setDate(2, fecha);
-            pstmt.setInt(3, idP);
-            pstmt.setInt(4, idA);
+            pstmt.setDate(1, fecha);
+            pstmt.setInt(2, idP);
+            pstmt.setInt(3, idA);
             pstmt.executeUpdate();
             System.out.println("Orden de compra insertada");
         }
-        
     }
+
 
     public static boolean buscarOrdenCompraId(Connection con, int idBuscado) throws SQLException {
         String query = "SELECT id FROM Orden_Compra WHERE id = ?";
