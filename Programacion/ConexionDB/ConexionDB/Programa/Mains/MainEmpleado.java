@@ -11,7 +11,7 @@ public class MainEmpleado {
         try (Connection con = ConexionDB.obtenerConexion()) {
                 System.out.println("Conexión establecida.");
 
-            EmpleadoDB.insertarEmpleado(con, 100, "Gerente", "Juan Perez", "123456789");
+            EmpleadoDB.insertarEmpleado(con,  "Gerente", "Juan Perez", "123456789");
 
             EmpleadoDB.verTodosEmpleados(con);
 

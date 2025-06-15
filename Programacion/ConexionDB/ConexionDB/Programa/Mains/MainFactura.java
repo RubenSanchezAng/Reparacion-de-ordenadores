@@ -14,7 +14,7 @@ public class MainFactura{
 
 
              // 1. Insertar
-              FacturaDB.insertarFactura(con, 100, 1200.50, 1);
+              FacturaDB.insertarFactura(con,  1200.50, 1, 2);
 
              // 2. Ver todas
              System.out.println("Facturas registradas:");

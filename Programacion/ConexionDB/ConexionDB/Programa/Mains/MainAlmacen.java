@@ -14,7 +14,7 @@ public class MainAlmacen {
             System.out.println("Conexión establecida.");
    
              
-            AlmacenDB.insertarAlmacen(con, 100, Date.valueOf(LocalDate.of(2025, 6, 4)), "Madrid");
+            AlmacenDB.insertarAlmacen(con,  Date.valueOf(LocalDate.of(2025, 6, 4)), "Madrid");
 
             AlmacenDB.verAlmacenes(con);
 

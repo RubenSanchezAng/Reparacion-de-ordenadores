@@ -9,12 +9,12 @@ import BaseDatos.ConexionDB;
 
 public class MainAdministrativo {
     public static void main(String[] args) {
-        int idAdmin = 100;
+        int idAdmin = 2;
 
         try (Connection con = ConexionDB.obtenerConexion()) {
 
             // Insertar técnico
-            AdministrativoDB.insertarAdministrativo(con, idAdmin, "Soporte", "Carlos Gómez", "612345678");
+            AdministrativoDB.insertarAdministrativo(con, "jjjikln", "prueba Gómez", "612345678");
 
             // Ver todos los técnicos
             AdministrativoDB.verAdministrativos(con);

@@ -13,7 +13,7 @@ public class MainTecnico{
            
             int idTecnico = 100;
 
-            TecnicoDB.insertarTecnico(con, idTecnico, "Soporte", "Carlos Gómez", "612345678");
+            TecnicoDB.insertarTecnico(con, "Soporte", "Carlos Gómez", "612345678");
 
             TecnicoDB.verTecnicos(con);
 

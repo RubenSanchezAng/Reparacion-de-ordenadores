@@ -12,7 +12,7 @@ public class MainCliente {
             System.out.println("Conexión establecida.");
    
             // Insertar clientes
-            ClienteDB.insertarCliente(con, 101, "juan@mail.com", "Juan Perez", "Calle Falsa 123");
+            ClienteDB.insertarCliente(con,  "juan@mail.com", "Juan Perez", "Calle Falsa 123");
 
             // Ver clientes
             ClienteDB.verClientes(con);

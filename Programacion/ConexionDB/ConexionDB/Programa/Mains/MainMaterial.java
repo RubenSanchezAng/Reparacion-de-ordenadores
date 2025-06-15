@@ -11,7 +11,7 @@ public class MainMaterial{
         try (Connection con = ConexionDB.obtenerConexion()) {
             System.out.println("Conexión establecida.");
 
-            MaterialesDB.insertarMaterial(con, 1, "Tornillos", 100, 15.75,2);
+            MaterialesDB.insertarMaterial(con,  "Tornillos", 100, 15.75,2);
 
             MaterialesDB.verMateriales(con);
 

@@ -17,7 +17,7 @@ public class MainPresupuestoDB {
             int idCliente = 3;
             int idFactura = 4;
 
-            PresupuestoDB.insertarPresupuesto(con, id, cantidad, idEquipo, idCliente, idFactura);
+            PresupuestoDB.insertarPresupuesto(con, cantidad, idEquipo, idCliente, idFactura);
 
             PresupuestoDB.verPresupuestos(con);
 

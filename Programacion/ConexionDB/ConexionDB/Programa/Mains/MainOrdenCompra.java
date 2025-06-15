@@ -18,7 +18,7 @@ public class MainOrdenCompra{
             Date fecha = Date.valueOf("2025-06-06");
             int idProveedor = 1;
             int idAdministrativo = 2;
-            OrdenCompraDB.insertarOrdenCompra(con, id, fecha, idProveedor, idAdministrativo);
+            OrdenCompraDB.insertarOrdenCompra(con,  fecha, idProveedor, idAdministrativo);
 
             OrdenCompraDB.verOrdenesCompra(con);
 

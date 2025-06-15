@@ -11,7 +11,7 @@ public class MainProvedorDB{
         try (Connection con = ConexionDB.obtenerConexion()) {
             System.out.println("Conexión establecida.");
    
-            ProveedorDB.insertarProveedor(con, 100, "Proveedor Dos", "987654321");
+            ProveedorDB.insertarProveedor(con,  "Proveedor Dos", "987654321");
 
             ProveedorDB.verProveedores(con);
 

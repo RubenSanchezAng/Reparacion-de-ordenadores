@@ -19,7 +19,7 @@ public class MainEquipo {
             String marca = "HP";
             int idTecnico = 3;
             
-            EquipoDB.insertarEquipo(con, id, estado, fecha, modelo, marca, idTecnico);
+            EquipoDB.insertarEquipo(con,  estado, fecha, modelo, marca, idTecnico);
 
             // Ver todos los equipos.
             //EquipoDB.verEquipos(con);
